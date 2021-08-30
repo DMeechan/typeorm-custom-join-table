@@ -28,6 +28,15 @@ async function create(connection: Connection) {
   console.log("Saved a new group:", { savedGroup });
 
   console.log("Loading users from the database...");
-  const users = await connection.manager.find(User, { relations: ["groups"] });
-  console.log("Loaded users: ", users);
+  //   const users = await connection.manager.find(User, {
+  //     relations: ["groupUsers"],
+  //   });
+
+  const users = await connection.manager
+    .createQueryBuilder(User, "user")
+    .innerJoinAndSelect("user.groupUsers", "groupUsers")
+    .innerJoinAndSelect("groupUsers.group", "group")
+    .getMany();
+
+  console.log("Loaded users: ", JSON.stringify(users, undefined, 2));
 }
