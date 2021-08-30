@@ -23,8 +23,8 @@ export class User {
   @Column()
   age: number;
 
-  //   @ManyToMany((type) => Group, (group) => group.users)
-  //   groups: Group[];
+  @ManyToMany((type) => Group, (group) => group.users)
+  groups: Group[];
 
   @OneToMany((type) => GroupUser, (groupUser) => groupUser.user)
   groupUsers: GroupUser[];
