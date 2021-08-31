@@ -1,5 +1,9 @@
 # TypeORM Custom Join Table Example
 
+### ✨ I want a custom join table in TypeORM - how do I do it?
+
+Look at the entities inside `src/entity` to see how it works. Then look at `src/index.ts` to see examples of how to create and query the relationships.
+
 ### 🤔 Why does this exist?
 
 [TypeORM](https://github.com/typeorm/typeorm)'s docs briefly mention [many-to-many relations with custom properties](https://typeorm.io/#/many-to-many-relations/many-to-many-relations-with-custom-properties) and [custom @JoinTable options](https://github.com/typeorm/typeorm/blob/master/docs/relations.md#jointable-options) but there's no clear example of how to create a join table in TypeORM which:
@@ -52,10 +56,6 @@ const usersWithGroups = await connection.manager
     .innerJoinAndSelect("userGroups.group", "group")
     .getMany();
 ```
-
-### ✨ I want a custom join table too - how do I do it?
-
-Look at the entities inside `src/entity` to see how it works. Then look at `src/index.ts` to see examples of how to create and query the relationships.
 
 ### 🐣 How can I run this project?
 
