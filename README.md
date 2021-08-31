@@ -12,7 +12,7 @@ Look at the entities inside `src/entity` to see how it works. Then look at `src/
 - [x] Lets you join two entities by setting a relationship, instead of creating an instance of the join table (see example A below)
 - [x] Lets you fetch child entities using TypeORM's typical syntax for ManyToMany joins (see example B below)
 
-After numerous errors and iterations, I've found the exact incantation that TypeORM needs to create a join table that meets the requirements above. I hope this is useful!
+After numerous errors and iterations, I've found the exact incantation that TypeORM 0.2.37 needs to create a join table that meets the requirements above. I hope this is useful!
 
 Example A:
 
