@@ -54,13 +54,13 @@ async function addUserToGroup(user: User, group: Group) {
     .add(user);
 
   /*
-    Or you can create a new GroupUser instance and set its properties manually:
+    Or you can create a new UserGroup instance and set its properties manually:
 
-    const groupUser = new GroupUser();
-    groupUser.user = user;
-    groupUser.group = group;
+    const userGroup = new UserGroup();
+    userGroup.user = user;
+    userGroup.group = group;
   
-    const saved = await connection.manager.save(groupUser);
+    const saved = await connection.manager.save(userGroup);
     return saved;
   */
 }
@@ -73,11 +73,11 @@ async function query() {
     .getMany();
   prettyLog(groupsWithUsers);
 
-  console.log("Load only users with groups via groupUsers join table:");
+  console.log("Load only users with groups via userGroups join table:");
   const usersWithGroupsManually = await connection.manager
     .createQueryBuilder(User, "user")
-    .innerJoinAndSelect("user.groupUsers", "groupUsers")
-    .innerJoinAndSelect("groupUsers.group", "group")
+    .innerJoinAndSelect("user.userGroups", "userGroups")
+    .innerJoinAndSelect("userGroups.group", "group")
     .getMany();
   prettyLog(usersWithGroupsManually);
 

@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 
 import { Group } from "./Group";
-import { GroupUser } from "./GroupUser";
+import { UserGroup } from "./UserGroup";
 
 @Entity("user")
 export class User {
@@ -26,6 +26,6 @@ export class User {
   @ManyToMany((type) => Group, (group) => group.users)
   groups: Group[];
 
-  @OneToMany((type) => GroupUser, (groupUser) => groupUser.user)
-  groupUsers: GroupUser[];
+  @OneToMany((type) => UserGroup, (userGroup) => userGroup.user)
+  userGroups: UserGroup[];
 }

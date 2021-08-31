@@ -24,10 +24,10 @@ group.users = [user];
 await connection.manager.save(group);
 
 // Instead of doing this:
-const groupUser = new GroupUser();
-groupUser.user = user;
-groupUser.group = group;
-await connection.manager.save(groupUser);
+const userGroup = new UserGroup();
+userGroup.user = user;
+userGroup.group = group;
+await connection.manager.save(userGroup);
 ```
 
 Example B:
@@ -46,8 +46,8 @@ const usersWithGroups = await connection.manager.find(User, {
 // Instead of doing this:
 const usersWithGroups = await connection.manager
     .createQueryBuilder(User, "user")
-    .innerJoinAndSelect("user.groupUsers", "groupUsers")
-    .innerJoinAndSelect("groupUsers.group", "group")
+    .innerJoinAndSelect("user.userGroups", "userGroups")
+    .innerJoinAndSelect("userGroups.group", "group")
     .getMany();
 ```
 

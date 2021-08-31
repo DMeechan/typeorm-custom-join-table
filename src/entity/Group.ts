@@ -7,8 +7,7 @@ import {
   JoinTable,
 } from "typeorm";
 
-import { GroupUser } from "./GroupUser";
-
+import { UserGroup } from "./UserGroup";
 import { User } from "./User";
 
 @Entity("group")
@@ -21,12 +20,12 @@ export class Group {
 
   @ManyToMany((type) => User, (user) => user.groups)
   @JoinTable({
-    name: "group_user",
+    name: "user_group",
     joinColumn: { name: "groupId", referencedColumnName: "id" },
     inverseJoinColumn: { name: "userId", referencedColumnName: "id" },
   })
   users: User[];
 
-  @OneToMany((type) => GroupUser, (groupUser) => groupUser.group)
-  groupUsers: GroupUser[];
+  @OneToMany((type) => UserGroup, (userGroup) => userGroup.group)
+  userGroups: UserGroup[];
 }
