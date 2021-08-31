@@ -2,11 +2,13 @@
 
 ### 🤔 Why does this exist?
 
-TypeORM's docs briefly mention [many-to-many relations with custom properties](https://typeorm.io/#/many-to-many-relations/many-to-many-relations-with-custom-properties) and [custom @JoinTable options](https://github.com/typeorm/typeorm/blob/master/docs/relations.md#jointable-options) but there's no clear example of to achieve a join table which:
+[TypeORM](https://github.com/typeorm/typeorm)'s docs briefly mention [many-to-many relations with custom properties](https://typeorm.io/#/many-to-many-relations/many-to-many-relations-with-custom-properties) and [custom @JoinTable options](https://github.com/typeorm/typeorm/blob/master/docs/relations.md#jointable-options) but there's no clear example of how to create a join table in TypeORM which:
 
 - [x] Can have custom properties, like a `createdAt` column
 - [x] Lets you join two entities by setting a relationship, instead of creating an instance of the join table (see example A below)
 - [x] Lets you fetch child entities using TypeORM's typical syntax for ManyToMany joins (see example B below)
+
+After numerous errors and iterations, I've found the exact incantation that TypeORM needs to create a join table that meets the requirements above. I hope this is useful!
 
 Example A:
 
