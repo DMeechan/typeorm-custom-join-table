@@ -1,18 +1,19 @@
 {
-   "name": "daisie",
-   "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
-   "devDependencies": {
-      "ts-node": "3.3.0",
-      "@types/node": "^8.0.29",
-      "typescript": "3.3.3333"
-   },
-   "dependencies": {
-      "typeorm": "0.2.37",
-      "reflect-metadata": "^0.1.10",
-      "pg": "^8.4.0"
-   },
-   "scripts": {
-      "start": "ts-node src/index.ts"
-   }
+  "name": "typeorm-custom-join-table",
+  "version": "0.0.1",
+  "description": "Example TypeORM project showing how to do custom join tables",
+  "devDependencies": {
+    "@types/node": "^14.17.12",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "pg": "^8.7.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.37"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  }
 }
