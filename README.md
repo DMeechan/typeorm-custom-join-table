@@ -58,5 +58,6 @@ Ensure you have Node.js 12 or above installed, then follow these steps:
 1. Clone this repository
 2. Enter the repository folder in your shell
 3. Install dependencies with `npm install`
-4. Setup database settings inside `ormconfig.json` file
-5. Run `npm start` to run the code (the code creates some entities then logs them to console)
+4. Set up a Postgres database locally
+5. Set the database's settings inside `ormconfig.json`
+6. Run `npm start` to run the code (the code creates some entities then logs them to console)
