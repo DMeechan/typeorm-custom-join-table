@@ -4,51 +4,96 @@ import { Connection, createConnection } from "typeorm";
 import { Group } from "./entity/Group";
 import { User } from "./entity/User";
 
-createConnection()
-  .then(async (connection) => {
-    await create(connection);
+const iteration = getRandomInteger(1111, 9999);
+let connection: Connection;
 
+(async () => {
+  try {
+    connection = await createConnection();
+
+    const userA = await createUser();
+    const userB = await createUser();
+    const userC = await createUser();
+    const group = await createGroup([userB]);
+    await addUserToGroup(userC, group);
+
+    await query();
+
+    console.log("Done!");
     process.exit(0);
-  })
-  .catch((error) => console.log(error));
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+})();
 
-async function create(connection: Connection) {
-  console.log("Inserting a new user into the database...");
+async function createUser() {
   const user = new User();
-  user.firstName = "Timber";
-  user.lastName = "Saw";
+  user.firstName = `Morty${iteration}`;
+  user.lastName = `Smith${iteration}`;
   user.age = 25;
+
   const savedUser = await connection.manager.save(user);
-  console.log("Saved a new user with id:", { savedUser });
+  return savedUser;
+}
 
+async function createGroup(users: User[] = []) {
   const group = new Group();
-  group.name = "Team Daisie";
-//   group.users = [savedUser];
+  group.name = `Universe C-${iteration}`;
+  group.users = users;
+
   const savedGroup = await connection.manager.save(group);
-  console.log("Saved a new group:", { savedGroup });
+  return savedGroup;
+}
 
-  console.log("Loading users from the database...");
+async function addUserToGroup(user: User, group: Group) {
+  return await connection.manager
+    .createQueryBuilder()
+    .relation(Group, "users")
+    .of(group)
+    .add(user);
 
+  /*
+    Or you can create a new GroupUser instance and set its properties manually:
+
+    const groupUser = new GroupUser();
+    groupUser.user = user;
+    groupUser.group = group;
+  
+    const saved = await connection.manager.save(groupUser);
+    return saved;
+  */
+}
+
+async function query() {
+  console.log("Load only groups with users via ManyToMany:");
+  const groupsWithUsers = await connection.manager
+    .createQueryBuilder(Group, "group")
+    .innerJoinAndSelect("group.users", "users")
+    .getMany();
+  prettyLog(groupsWithUsers);
+
+  console.log("Load only users with groups via groupUsers join table:");
   const usersWithGroupsManually = await connection.manager
     .createQueryBuilder(User, "user")
     .innerJoinAndSelect("user.groupUsers", "groupUsers")
     .innerJoinAndSelect("groupUsers.group", "group")
     .getMany();
-  console.log(
-    "Loaded users: ",
-    JSON.stringify(usersWithGroupsManually, undefined, 2)
-  );
+  prettyLog(usersWithGroupsManually);
 
-  // const manyToManyUsers = await connection.manager.find(User, {
-  //   relations: ["groups"],
-  // });
-  const usersWithGroupsJoinTable = await connection.manager
-    .createQueryBuilder(User, "user")
-    .innerJoinAndSelect("user.groups", "groups")
-    .getMany();
+  console.log("Load users with groups via Find():");
+  const usersWithGroupsFind = await connection.manager.find(User, {
+    relations: ["groups"],
+  });
+  prettyLog(usersWithGroupsFind);
+}
 
-  console.log(
-    "Loaded users: ",
-    JSON.stringify(usersWithGroupsJoinTable, undefined, 2)
-  );
+function getRandomInteger(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function prettyLog(obj: any) {
+  console.log(JSON.stringify(obj, undefined, 2));
 }
