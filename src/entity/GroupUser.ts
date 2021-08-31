@@ -1,4 +1,10 @@
-import { Entity, CreateDateColumn, ManyToOne, JoinColumn } from "typeorm";
+import {
+  Entity,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  PrimaryColumn,
+} from "typeorm";
 import { Group } from "./Group";
 
 import { User } from "./User";
@@ -14,6 +20,9 @@ export class GroupUser {
   @ManyToOne((type) => Group, (group) => group.groupUsers, { primary: true })
   group: Group;
 
+  @PrimaryColumn()
   userId: number;
+
+  @PrimaryColumn()
   groupId: number;
 }
